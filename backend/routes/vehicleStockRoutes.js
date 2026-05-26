@@ -6,7 +6,22 @@ const { protect } = require('../middleware/authMiddleware');
 // Add vehicle
 router.post('/', protect, async (req, res) => {
   try {
-    const v = await Vehicle.create(req.body);
+    const {
+      vehicleModel, chassisNo, motorNo, controllerNo,
+      chargerNo, batteryNo, vehicleColor, purchaseDate,
+      price, stockStatus
+    } = req.body;
+
+    if (!vehicleModel) return res.status(400).json({ message: 'Vehicle model is required.' });
+    if (!chassisNo) return res.status(400).json({ message: 'Chassis number is required.' });
+
+    const v = await Vehicle.create({
+      vehicleModel, chassisNo, motorNo, controllerNo,
+      chargerNo, batteryNo, vehicleColor, purchaseDate,
+      price: price || 0,
+      stockStatus: stockStatus || 'Available'
+    });
+
     res.status(201).json(v);
   } catch (err) {
     if (err.code === 11000)
@@ -64,7 +79,22 @@ router.get('/chassis/:chassisNo', protect, async (req, res) => {
 // Update vehicle
 router.put('/:id', protect, async (req, res) => {
   try {
-    const v = await Vehicle.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const {
+      vehicleModel, chassisNo, motorNo, controllerNo,
+      chargerNo, batteryNo, vehicleColor, purchaseDate,
+      price, stockStatus
+    } = req.body;
+
+    const v = await Vehicle.findByIdAndUpdate(
+      req.params.id,
+      {
+        vehicleModel, chassisNo, motorNo, controllerNo,
+        chargerNo, batteryNo, vehicleColor, purchaseDate,
+        price: price || 0,
+        stockStatus: stockStatus || 'Available'
+      },
+      { new: true, runValidators: true }
+    );
     if (!v) return res.status(404).json({ message: 'Vehicle not found' });
     res.json(v);
   } catch (err) {
