@@ -12,10 +12,13 @@ const otherChargeSchema = new mongoose.Schema({
 }, { _id: false });
 
 const invoiceSchema = new mongoose.Schema({
-  invoiceType: { type: String, enum: ['Sales Bill', 'Service Bill'], required: true },
+  invoiceType: {
+    type: String,
+    enum: ['Sales Bill', 'Service Bill'],
+    required: true
+  },
   invoiceNo: { type: String, required: true, unique: true },
   invoiceDate: { type: Date, default: Date.now },
-  dueDate: { type: Date },
 
   // Company
   companyName: { type: String },
@@ -31,18 +34,17 @@ const invoiceSchema = new mongoose.Schema({
   customerAddress: { type: String },
 
   // Vehicle
-  vehicleName: { type: String },
   vehicleModel: { type: String },
-  vehicleType: { type: String },
-  vehicleCompany: { type: String },
-  vehicleYear: { type: String },
   chassisNo: { type: String },
   motorNo: { type: String },
   controllerNo: { type: String },
   chargerNo: { type: String },
+  batteryNo: { type: String },
+  vehicleColor: { type: String },
+  vehicleType: { type: String },
 
   // Service specific
-  serviceType: { type: String },
+  serviceDescription: { type: String },
   serviceDate: { type: Date },
   kmRun: { type: String },
 
@@ -53,6 +55,7 @@ const invoiceSchema = new mongoose.Schema({
 
   // Financials
   sparesTotal: { type: Number, default: 0 },
+  labourTotal: { type: Number, default: 0 },
   otherTotal: { type: Number, default: 0 },
   grossTotal: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },

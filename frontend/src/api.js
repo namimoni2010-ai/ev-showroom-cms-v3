@@ -46,10 +46,11 @@ export const getDashboardStats = () => API.get('/dashboard-stats');
 
 // Vehicles
 export const addVehicle = (data) => API.post('/vehicles', data);
-export const getVehicles = () => API.get('/vehicles');
+export const getVehicles = (status) => API.get('/vehicles', { params: status ? { status } : {} });
 export const searchVehicles = (q) => API.get(`/vehicles/search?q=${encodeURIComponent(q)}`);
 export const getVehicleByChassis = (chassisNo) => API.get(`/vehicles/chassis/${encodeURIComponent(chassisNo)}`);
 export const updateVehicle = (id, data) => API.put(`/vehicles/${id}`, data);
+export const markVehicleSold = (id) => API.put(`/vehicles/${id}/sell`);
 export const deleteVehicle = (id) => API.delete(`/vehicles/${id}`);
 
 // Spares
@@ -58,7 +59,8 @@ export const getSpares = () => API.get('/spares');
 export const updateSpare = (id, data) => API.put(`/spares/${id}`, data);
 export const deleteSpare = (id) => API.delete(`/spares/${id}`);
 
-// Invoices (stored in DB)
+// Invoices
+export const getNextInvoiceNumber = (type) => API.get(`/invoices/next-number/${encodeURIComponent(type)}`);
 export const saveInvoice = (data) => API.post('/invoices', data);
 export const getInvoices = (params) => API.get('/invoices', { params });
 export const getInvoiceById = (id) => API.get(`/invoices/${id}`);

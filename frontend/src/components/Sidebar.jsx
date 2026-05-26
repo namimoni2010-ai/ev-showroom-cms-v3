@@ -30,8 +30,8 @@ export default function Sidebar() {
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-lg">⚡</div>
           <div>
-            <p className="text-white font-bold text-sm leading-tight">EV Showroom</p>
-            <p className="text-emerald-400 text-xs">Management System</p>
+            <p className="text-white font-bold text-sm leading-tight">Palani Andavar</p>
+            <p className="text-emerald-400 text-xs">E-Motors Management</p>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function Sidebar() {
             {user.name ? user.name[0].toUpperCase() : 'U'}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white text-sm font-medium truncate">{user.name || 'User'}</p>
+            <p className="text-white text-sm font-medium truncate">{user.name || 'Admin'}</p>
             <p className="text-slate-400 text-xs truncate">{user.email || ''}</p>
           </div>
         </div>
