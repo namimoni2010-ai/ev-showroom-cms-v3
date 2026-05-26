@@ -1,11 +1,14 @@
-// backend/controllers/salesController.js
 const Sale = require('../models/Sales');
 const Customer = require('../models/Customer');
 const Vehicle = require('../models/VehicleStock');
 
 const addSale = async (req, res) => {
   try {
-    const { customerId, vehicleName, vehicleType, range, price, discount, paidAmount, salesDate, paymentMode } = req.body;
+    const {
+      customerId, vehicleName, vehicleType, range,
+      price, discount, paidAmount, salesDate, paymentMode
+    } = req.body;
+
     const customer = await Customer.findById(customerId);
     const finalPrice = price - (discount || 0);
     const paid = paidAmount || 0;
@@ -16,7 +19,8 @@ const addSale = async (req, res) => {
       customerId,
       customerName: customer ? customer.name : '',
       vehicleName, vehicleType, range, price,
-      discount: discount || 0, finalPrice,
+      discount: discount || 0,
+      finalPrice,
       paidAmount: paid,
       pendingAmount: pending < 0 ? 0 : pending,
       paymentStatus,
@@ -24,9 +28,12 @@ const addSale = async (req, res) => {
       salesDate: salesDate || new Date()
     });
 
-    // Auto-mark matching available vehicle as Sold
+    // Mark matching available vehicle as Sold in VehicleStock
     await Vehicle.findOneAndUpdate(
-      { vehicleModel: { $regex: new RegExp(`^${vehicleName}$`, 'i') }, stockStatus: 'Available' },
+      {
+        vehicleModel: { $regex: new RegExp(`^${vehicleName}$`, 'i') },
+        stockStatus: 'Available'
+      },
       { stockStatus: 'Sold' }
     );
 
@@ -38,7 +45,9 @@ const addSale = async (req, res) => {
 
 const getSales = async (req, res) => {
   try {
-    const sales = await Sale.find().populate('customerId', 'name phone').sort({ createdAt: -1 });
+    const sales = await Sale.find()
+      .populate('customerId', 'name phone')
+      .sort({ createdAt: -1 });
     res.json(sales);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -47,7 +56,8 @@ const getSales = async (req, res) => {
 
 const getSalesByCustomer = async (req, res) => {
   try {
-    const sales = await Sale.find({ customerId: req.params.customerId }).sort({ createdAt: -1 });
+    const sales = await Sale.find({ customerId: req.params.customerId })
+      .sort({ createdAt: -1 });
     res.json(sales);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -88,4 +98,7 @@ const deleteSale = async (req, res) => {
   }
 };
 
-module.exports = { addSale, getSales, getSalesByCustomer, updateSalePayment, updateSale, deleteSale };
+module.exports = {
+  addSale, getSales, getSalesByCustomer,
+  updateSalePayment, updateSale, deleteSale
+};
