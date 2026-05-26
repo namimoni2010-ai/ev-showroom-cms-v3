@@ -1,3 +1,4 @@
+// backend/controllers/salesController.js
 const Sale = require('../models/Sales');
 const Customer = require('../models/Customer');
 const Vehicle = require('../models/VehicleStock');
@@ -23,10 +24,10 @@ const addSale = async (req, res) => {
       salesDate: salesDate || new Date()
     });
 
-    // Auto-decrement vehicle stock
+    // Auto-mark matching available vehicle as Sold
     await Vehicle.findOneAndUpdate(
-      { vehicleName: { $regex: new RegExp(`^${vehicleName}$`, 'i') }, quantity: { $gt: 0 } },
-      { $inc: { quantity: -1 } }
+      { vehicleModel: { $regex: new RegExp(`^${vehicleName}$`, 'i') }, stockStatus: 'Available' },
+      { stockStatus: 'Sold' }
     );
 
     res.status(201).json(sale);
