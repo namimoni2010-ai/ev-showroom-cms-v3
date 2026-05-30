@@ -6,10 +6,14 @@ const navItems = [
   { path: '/add-customer', label: 'Add Customer', icon: '👤' },
   { path: '/sales', label: 'Sales', icon: '🚗' },
   { path: '/service', label: 'Service', icon: '🔧' },
+<<<<<<< HEAD
   { path: '/payments', label: 'Payments', icon: '💳' },
   { path: '/view-customer', label: 'View Customer', icon: '🔍' },
   { path: '/invoice', label: 'Invoice', icon: '🧾' },
   { path: '/invoice-history', label: 'Invoice History', icon: '📂' },
+=======
+  { path: '/view-customer', label: 'View Customer', icon: '🔍' },
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
   { path: '/vehicle-stock', label: 'Vehicle Stock', icon: '📦' },
   { path: '/spare-stock', label: 'Spare Stock', icon: '⚙️' },
 ];
@@ -26,10 +30,15 @@ export default function Sidebar() {
 
   return (
     <aside className="fixed top-0 left-0 h-screen w-64 bg-slate-900 border-r border-slate-700 flex flex-col z-50">
+<<<<<<< HEAD
+=======
+      {/* Logo */}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
       <div className="px-6 py-5 border-b border-slate-700">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-lg">⚡</div>
           <div>
+<<<<<<< HEAD
             <p className="text-white font-bold text-sm leading-tight">Palani Andavar</p>
             <p className="text-emerald-400 text-xs">E-Motors Management</p>
           </div>
@@ -38,33 +47,72 @@ export default function Sidebar() {
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
         {navItems.map(({ path, label, icon }) => (
           <NavLink key={path} to={path}
+=======
+            <p className="text-white font-bold text-sm leading-tight">EV Showroom</p>
+            <p className="text-emerald-400 text-xs">Management System</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        {navItems.map(({ path, label, icon }) => (
+          <NavLink
+            key={path}
+            to={path}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                 isActive
                   ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-600/30'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`
+<<<<<<< HEAD
             }>
+=======
+            }
+          >
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
             <span className="text-base">{icon}</span>
             {label}
           </NavLink>
         ))}
       </nav>
+<<<<<<< HEAD
+=======
+
+      {/* User & Logout */}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
       <div className="px-4 py-4 border-t border-slate-700">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 bg-emerald-700 rounded-full flex items-center justify-center text-sm font-bold text-white">
             {user.name ? user.name[0].toUpperCase() : 'U'}
           </div>
           <div className="flex-1 min-w-0">
+<<<<<<< HEAD
             <p className="text-white text-sm font-medium truncate">{user.name || 'Admin'}</p>
             <p className="text-slate-400 text-xs truncate">{user.email || ''}</p>
           </div>
         </div>
         <button onClick={handleLogout}
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all">
+=======
+            <p className="text-white text-sm font-medium truncate">{user.name || 'User'}</p>
+            <p className="text-slate-400 text-xs truncate">{user.email || ''}</p>
+          </div>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"
+        >
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
           <span>🚪</span> Logout
         </button>
       </div>
     </aside>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

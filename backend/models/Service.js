@@ -8,11 +8,14 @@ const spareItemSchema = new mongoose.Schema({
   quantity: { type: Number, required: true, default: 1 }
 }, { _id: false });
 
+<<<<<<< HEAD
 const otherChargeSchema = new mongoose.Schema({
   description: { type: String, required: true },
   amount: { type: Number, required: true, default: 0 }
 }, { _id: false });
 
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 const serviceSchema = new mongoose.Schema({
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
   customerName: { type: String },
@@ -22,6 +25,7 @@ const serviceSchema = new mongoose.Schema({
   labourCost: { type: Number, default: 0 },
   spareItems: { type: [spareItemSchema], default: [] },
   spareCost: { type: Number, default: 0 },
+<<<<<<< HEAD
   otherCharges: { type: [otherChargeSchema], default: [] },
   otherChargesTotal: { type: Number, default: 0 },
   grossTotal: { type: Number, default: 0 },
@@ -36,9 +40,20 @@ const serviceSchema = new mongoose.Schema({
     default: 'Pending'
   },
   paymentCompletionDate: { type: Date },
+=======
+  totalBill: { type: Number, default: 0 },
+  paidAmount: { type: Number, default: 0 },
+  pendingAmount: { type: Number, default: 0 },
+  paymentStatus: { type: String, enum: ['Paid', 'Pending'], default: 'Pending' },
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
   paymentMode: { type: String, enum: ['Cash', 'UPI', 'Card', 'Bank Transfer'], default: 'Cash' },
   serviceDate: { type: Date, default: Date.now },
   nextServiceDate: { type: Date }
 }, { timestamps: true });
 
+<<<<<<< HEAD
 module.exports = mongoose.model('Service', serviceSchema);
+=======
+module.exports = mongoose.model('Service', serviceSchema);
+
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

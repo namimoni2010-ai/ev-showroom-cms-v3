@@ -1,6 +1,7 @@
 const Service = require('../models/Service');
 const Customer = require('../models/Customer');
 const Spare = require('../models/SpareStock');
+<<<<<<< HEAD
 const Payment = require('../models/Payment');
 
 const addService = async (req, res) => {
@@ -32,6 +33,21 @@ const addService = async (req, res) => {
     let paymentStatus = 'Pending';
     if (paid >= totalBill && totalBill > 0) paymentStatus = 'Completed';
     else if (paid > 0) paymentStatus = 'Partially Paid';
+=======
+
+const addService = async (req, res) => {
+  try {
+    const { customerId, vehicleName, kmRun, serviceType, labourCost, spareItems, paidAmount, serviceDate, paymentMode } = req.body;
+    const customer = await Customer.findById(customerId);
+
+    const items = Array.isArray(spareItems) ? spareItems : [];
+    const spareCost = items.reduce((sum, item) => sum + (parseFloat(item.sellingPrice) || 0) * (parseFloat(item.quantity) || 1), 0);
+    const labour = parseFloat(labourCost) || 0;
+    const totalBill = labour + spareCost;
+    const paid = parseFloat(paidAmount) || 0;
+    const pending = totalBill - paid;
+    const paymentStatus = pending <= 0 ? 'Paid' : 'Pending';
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
     const sDate = serviceDate ? new Date(serviceDate) : new Date();
     const nextServiceDate = new Date(sDate);
@@ -43,6 +59,7 @@ const addService = async (req, res) => {
       vehicleName, kmRun, serviceType,
       labourCost: labour,
       spareItems: items,
+<<<<<<< HEAD
       spareCost,
       otherCharges: charges,
       otherChargesTotal,
@@ -50,11 +67,15 @@ const addService = async (req, res) => {
       discount: discountAmt,
       discountedTotal,
       totalBill,
+=======
+      spareCost, totalBill,
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
       paidAmount: paid,
       pendingAmount: pending < 0 ? 0 : pending,
       paymentStatus,
       paymentMode: paymentMode || 'Cash',
       serviceDate: sDate,
+<<<<<<< HEAD
       nextServiceDate,
       paymentCompletionDate: paymentStatus === 'Completed' ? new Date() : undefined
     });
@@ -70,6 +91,12 @@ const addService = async (req, res) => {
       });
     }
 
+=======
+      nextServiceDate
+    });
+
+    // Auto-decrement spare stock for each item used
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     for (const item of items) {
       if (item.spareName && item.quantity > 0) {
         await Spare.findOneAndUpdate(
@@ -87,15 +114,20 @@ const addService = async (req, res) => {
 
 const getServices = async (req, res) => {
   try {
+<<<<<<< HEAD
     const services = await Service.find()
       .populate('customerId', 'name phone')
       .sort({ createdAt: -1 });
+=======
+    const services = await Service.find().populate('customerId', 'name phone').sort({ createdAt: -1 });
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     res.json(services);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+<<<<<<< HEAD
 const getServiceById = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id)
@@ -113,12 +145,18 @@ const getServicesByCustomer = async (req, res) => {
   try {
     const services = await Service.find({ customerId: req.params.customerId })
       .sort({ createdAt: -1 });
+=======
+const getServicesByCustomer = async (req, res) => {
+  try {
+    const services = await Service.find({ customerId: req.params.customerId }).sort({ createdAt: -1 });
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     res.json(services);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+<<<<<<< HEAD
 const addPayment = async (req, res) => {
   try {
     const { amount, method, paymentDate, note } = req.body;
@@ -163,6 +201,8 @@ const getPaymentHistory = async (req, res) => {
   }
 };
 
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 const updateServicePayment = async (req, res) => {
   try {
     const { paidAmount } = req.body;
@@ -170,11 +210,15 @@ const updateServicePayment = async (req, res) => {
     if (!service) return res.status(404).json({ message: 'Service not found' });
     service.paidAmount = paidAmount;
     service.pendingAmount = service.totalBill - paidAmount;
+<<<<<<< HEAD
     let paymentStatus = 'Pending';
     if (paidAmount >= service.totalBill) paymentStatus = 'Completed';
     else if (paidAmount > 0) paymentStatus = 'Partially Paid';
     service.paymentStatus = paymentStatus;
     if (paymentStatus === 'Completed') service.paymentCompletionDate = new Date();
+=======
+    service.paymentStatus = service.pendingAmount <= 0 ? 'Paid' : 'Pending';
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     await service.save();
     res.json(service);
   } catch (err) {
@@ -195,14 +239,21 @@ const updateService = async (req, res) => {
 const deleteService = async (req, res) => {
   try {
     await Service.findByIdAndDelete(req.params.id);
+<<<<<<< HEAD
     await Payment.deleteMany({ serviceId: req.params.id });
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     res.json({ message: 'Service deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+<<<<<<< HEAD
 module.exports = {
   addService, getServices, getServiceById, getServicesByCustomer,
   addPayment, getPaymentHistory, updateServicePayment, updateService, deleteService
 };
+=======
+module.exports = { addService, getServices, getServicesByCustomer, updateServicePayment, updateService, deleteService };
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

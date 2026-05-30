@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { addSpare, getSpares, updateSpare, deleteSpare } from '../api';
 
+<<<<<<< HEAD
 const emptyForm = { spareName: '', buyingPrice: '', sellingPrice: '', quantity: '', minStockLevel: '5' };
+=======
+const emptyForm = { spareName: '', buyingPrice: '', sellingPrice: '', quantity: '' };
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
 export default function SpareStock() {
   const [form, setForm] = useState(emptyForm);
@@ -25,6 +29,7 @@ export default function SpareStock() {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
+<<<<<<< HEAD
     e.preventDefault(); setError(''); setSuccess('');
     if (!form.spareName || !form.sellingPrice) return setError('Name and selling price are required');
     setLoading(true);
@@ -33,22 +38,55 @@ export default function SpareStock() {
       else { await addSpare(form); setSuccess('Spare part added to stock!'); }
       setForm(emptyForm); setEditId(null); setShowForm(false); fetchSpares();
     } catch (err) { setError(err.response?.data?.message || 'Operation failed'); }
+=======
+    e.preventDefault();
+    setError(''); setSuccess('');
+    if (!form.spareName || !form.sellingPrice) return setError('Spare name and selling price are required');
+    setLoading(true);
+    try {
+      if (editId) {
+        await updateSpare(editId, form);
+        setSuccess('Spare part updated!');
+      } else {
+        await addSpare(form);
+        setSuccess('Spare part added to stock!');
+      }
+      setForm(emptyForm);
+      setEditId(null);
+      setShowForm(false);
+      fetchSpares();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Operation failed');
+    }
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     setLoading(false);
   };
 
   const handleEdit = (s) => {
+<<<<<<< HEAD
     setForm({ spareName: s.spareName, buyingPrice: s.buyingPrice || '', sellingPrice: s.sellingPrice, quantity: s.quantity, minStockLevel: s.minStockLevel ?? 5 });
     setEditId(s._id); setShowForm(true);
+=======
+    setForm({ spareName: s.spareName, buyingPrice: s.buyingPrice || '', sellingPrice: s.sellingPrice, quantity: s.quantity });
+    setEditId(s._id);
+    setShowForm(true);
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this spare part?')) return;
+<<<<<<< HEAD
     try { await deleteSpare(id); fetchSpares(); } catch { alert('Delete failed'); }
+=======
+    try { await deleteSpare(id); fetchSpares(); }
+    catch { alert('Delete failed'); }
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
   };
 
   const fmt = (n) => `₹${Number(n || 0).toLocaleString('en-IN')}`;
   const filtered = spares.filter(s => s.spareName.toLowerCase().includes(search.toLowerCase()));
+<<<<<<< HEAD
   const lowCount = spares.filter(s => s.quantity <= (s.minStockLevel ?? 5)).length;
   const outCount = spares.filter(s => s.quantity === 0).length;
   const totalValue = spares.reduce((a, s) => a + (s.sellingPrice * s.quantity), 0);
@@ -97,6 +135,17 @@ export default function SpareStock() {
         <div>
           <h1 className="page-title">Spare Parts Stock</h1>
           <p className="text-slate-400 text-sm">Manage inventory · Admin sets min stock alert level per item</p>
+=======
+  const totalStockValue = spares.reduce((a, s) => a + (s.sellingPrice * s.quantity), 0);
+  const profit = spares.reduce((a, s) => a + ((s.sellingPrice - (s.buyingPrice || 0)) * s.quantity), 0);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="page-title">Spare Parts Stock</h1>
+          <p className="text-slate-400 text-sm">Manage spare parts inventory · qty auto-decrements on service</p>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
         </div>
         <button onClick={() => { setShowForm(!showForm); setEditId(null); setForm(emptyForm); }} className="btn-primary">
           {showForm ? '✕ Cancel' : '+ Add Spare Part'}
@@ -104,6 +153,7 @@ export default function SpareStock() {
       </div>
 
       {/* Summary Cards */}
+<<<<<<< HEAD
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         <div className="card"><p className="text-slate-400 text-sm">Total Parts</p><p className="text-2xl font-bold text-white mt-1">{spares.length}</p></div>
         <div className="card"><p className="text-slate-400 text-sm">Total Qty</p><p className="text-2xl font-bold text-white mt-1">{spares.reduce((a, s) => a + (s.quantity || 0), 0)}</p></div>
@@ -114,6 +164,15 @@ export default function SpareStock() {
       </div>
 
       {/* Form */}
+=======
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+        <div className="card"><p className="text-slate-400 text-sm">Total Parts</p><p className="text-2xl font-bold text-white mt-1">{spares.length}</p></div>
+        <div className="card"><p className="text-slate-400 text-sm">Total Qty</p><p className="text-2xl font-bold text-white mt-1">{spares.reduce((a, s) => a + (s.quantity || 0), 0)}</p></div>
+        <div className="card"><p className="text-slate-400 text-sm">Stock Value (Selling)</p><p className="text-2xl font-bold text-emerald-400 mt-1">{fmt(totalStockValue)}</p></div>
+        <div className="card"><p className="text-slate-400 text-sm">Potential Profit</p><p className="text-2xl font-bold text-blue-400 mt-1">{fmt(profit)}</p></div>
+      </div>
+
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
       {showForm && (
         <div className="card mb-6">
           <h2 className="text-lg font-semibold text-white mb-5">{editId ? 'Edit Spare Part' : 'Add New Spare Part'}</h2>
@@ -121,7 +180,11 @@ export default function SpareStock() {
           {error && <div className="bg-red-900/30 border border-red-700 text-red-400 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<<<<<<< HEAD
               <div className="lg:col-span-2">
+=======
+              <div>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                 <label className="label">Spare Part Name <span className="text-red-400">*</span></label>
                 <input name="spareName" value={form.spareName} onChange={handleChange} placeholder="e.g. Brake Pad Set" className="input-field" required />
               </div>
@@ -131,17 +194,24 @@ export default function SpareStock() {
               </div>
               <div>
                 <label className="label">Selling Price (₹) <span className="text-red-400">*</span></label>
+<<<<<<< HEAD
                 <input name="sellingPrice" type="number" value={form.sellingPrice} onChange={handleChange} placeholder="Sale price" className="input-field" required />
+=======
+                <input name="sellingPrice" type="number" value={form.sellingPrice} onChange={handleChange} placeholder="Sale price to customer" className="input-field" required />
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
               </div>
               <div>
                 <label className="label">Quantity Available</label>
                 <input name="quantity" type="number" value={form.quantity} onChange={handleChange} placeholder="0" className="input-field" />
               </div>
+<<<<<<< HEAD
               <div>
                 <label className="label">🔔 Min Stock Level <span className="text-slate-500 font-normal text-xs">(alert threshold)</span></label>
                 <input name="minStockLevel" type="number" value={form.minStockLevel} onChange={handleChange} placeholder="5" className="input-field" />
                 <p className="text-slate-500 text-xs mt-1">Alert shows when qty ≤ this value</p>
               </div>
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
             </div>
             {form.buyingPrice && form.sellingPrice && (
               <div className="bg-slate-700/50 rounded-lg px-4 py-3 border border-slate-600 flex gap-6 text-sm">
@@ -155,14 +225,23 @@ export default function SpareStock() {
               </div>
             )}
             <div className="flex gap-3 pt-2">
+<<<<<<< HEAD
               <button type="submit" disabled={loading} className="btn-primary">{loading ? 'Saving...' : editId ? 'Update Part' : 'Add Part'}</button>
+=======
+              <button type="submit" disabled={loading} className="btn-primary">
+                {loading ? 'Saving...' : editId ? 'Update Part' : 'Add Part'}
+              </button>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
               {editId && <button type="button" onClick={() => { setEditId(null); setForm(emptyForm); setShowForm(false); }} className="btn-secondary">Cancel</button>}
             </div>
           </form>
         </div>
       )}
 
+<<<<<<< HEAD
       {/* Table */}
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">Spare Parts Inventory ({filtered.length})</h2>
@@ -177,7 +256,11 @@ export default function SpareStock() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="table-header">
+<<<<<<< HEAD
                   {['Spare Part Name', 'Buying Price', 'Selling Price', 'Margin', 'Qty', 'Min Level', 'Reorder Qty', 'Status', 'Actions'].map(h => (
+=======
+                  {['Spare Part Name', 'Buying Price', 'Selling Price', 'Margin', 'Qty', 'Stock Value', 'Status', 'Actions'].map(h => (
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                     <th key={h} className="text-left px-4 py-3">{h}</th>
                   ))}
                 </tr>
@@ -185,16 +268,23 @@ export default function SpareStock() {
               <tbody>
                 {filtered.map((s) => {
                   const margin = (s.sellingPrice || 0) - (s.buyingPrice || 0);
+<<<<<<< HEAD
                   const minLevel = s.minStockLevel ?? 5;
                   const reorder = Math.max(0, minLevel - s.quantity);
                   const st = getStatus(s);
                   return (
                     <tr key={s._id} className={`table-row ${s.quantity <= minLevel ? 'bg-orange-900/5' : ''}`}>
+=======
+                  const isLow = s.quantity <= 2;
+                  return (
+                    <tr key={s._id} className={`table-row ${isLow ? 'bg-red-900/10' : ''}`}>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                       <td className="px-4 py-3 text-white font-medium">{s.spareName}</td>
                       <td className="px-4 py-3 text-slate-300">{fmt(s.buyingPrice)}</td>
                       <td className="px-4 py-3 text-emerald-400 font-semibold">{fmt(s.sellingPrice)}</td>
                       <td className="px-4 py-3" style={{ color: margin >= 0 ? '#34d399' : '#f87171' }}>{fmt(margin)}</td>
                       <td className="px-4 py-3">
+<<<<<<< HEAD
                         <span className="font-bold text-lg" style={{ color: s.quantity === 0 ? '#f87171' : s.quantity <= minLevel ? '#fbbf24' : '#fff' }}>{s.quantity}</span>
                       </td>
                       <td className="px-4 py-3 text-slate-400 font-medium">{minLevel}</td>
@@ -204,6 +294,22 @@ export default function SpareStock() {
                         <div className="flex gap-2">
                           <button onClick={() => handleEdit(s)} className="btn-secondary text-xs py-1 px-3">✏️ Edit</button>
                           <button onClick={() => handleDelete(s._id)} className="btn-danger text-xs py-1 px-3">🗑</button>
+=======
+                        <span className={`font-bold text-lg ${isLow ? 'text-red-400' : 'text-white'}`}>{s.quantity}</span>
+                      </td>
+                      <td className="px-4 py-3 text-slate-300">{fmt(s.sellingPrice * s.quantity)}</td>
+                      <td className="px-4 py-3">
+                        <span className={s.quantity === 0 ? 'text-xs text-red-400 bg-red-900/30 border border-red-800 px-2.5 py-0.5 rounded-full'
+                          : s.quantity <= 2 ? 'badge-pending'
+                          : 'badge-paid'}>
+                          {s.quantity === 0 ? 'Out of Stock' : s.quantity <= 2 ? '⚠ Low Stock' : 'In Stock'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2">
+                          <button onClick={() => handleEdit(s)} className="btn-secondary text-xs py-1 px-3">✏️ Edit</button>
+                          <button onClick={() => handleDelete(s._id)} className="btn-danger text-xs py-1 px-3">🗑 Delete</button>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                         </div>
                       </td>
                     </tr>
@@ -216,4 +322,8 @@ export default function SpareStock() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

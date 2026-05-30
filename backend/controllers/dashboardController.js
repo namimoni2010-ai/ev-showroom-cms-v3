@@ -10,17 +10,25 @@ const getDashboardStats = async (req, res) => {
     const totalSales = await Sale.countDocuments();
     const totalServices = await Service.countDocuments();
 
+<<<<<<< HEAD
     // Pending amounts
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     const salesPending = await Sale.aggregate([
       { $match: { paymentStatus: 'Pending' } },
       { $group: { _id: null, total: { $sum: '$pendingAmount' } } }
     ]);
     const servicesPending = await Service.aggregate([
+<<<<<<< HEAD
       { $match: { paymentStatus: { $in: ['Pending', 'Partially Paid'] } } },
+=======
+      { $match: { paymentStatus: 'Pending' } },
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
       { $group: { _id: null, total: { $sum: '$pendingAmount' } } }
     ]);
     const totalPending = (salesPending[0]?.total || 0) + (servicesPending[0]?.total || 0);
 
+<<<<<<< HEAD
     // Pending sales with date
     const pendingSales = await Sale.find({ paymentStatus: 'Pending' })
       .populate('customerId', 'name phone')
@@ -34,15 +42,33 @@ const getDashboardStats = async (req, res) => {
       .sort({ serviceDate: 1 });
 
     // Service reminders
+=======
+    const pendingSales = await Sale.find({ paymentStatus: 'Pending' })
+      .populate('customerId', 'name phone')
+      .select('customerName pendingAmount customerId vehicleName finalPrice paidAmount');
+
+    const pendingServices = await Service.find({ paymentStatus: 'Pending' })
+      .populate('customerId', 'name phone')
+      .select('customerName pendingAmount customerId vehicleName totalBill paidAmount');
+
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     const today = new Date();
     const windowDate = new Date();
     windowDate.setDate(today.getDate() + 30);
 
+<<<<<<< HEAD
+=======
+    // Service reminders from service records
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     const serviceReminders = await Service.find({ nextServiceDate: { $lte: windowDate } })
       .populate('customerId', 'name phone')
       .sort({ nextServiceDate: 1 })
       .limit(50);
 
+<<<<<<< HEAD
+=======
+    // Service reminders from sales (first service after purchase)
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     const ninetyDaysAgo = new Date();
     ninetyDaysAgo.setDate(today.getDate() - 90);
     const sixtyDaysAgo = new Date();
@@ -73,6 +99,7 @@ const getDashboardStats = async (req, res) => {
       }
     }
 
+<<<<<<< HEAD
     // Low vehicle stock (qty <= 1)
     const lowVehicleStock = await Vehicle.find({ quantity: { $lte: 1 } })
       .select('vehicleName vehicleType quantity price').sort({ quantity: 1 });
@@ -91,6 +118,17 @@ const getDashboardStats = async (req, res) => {
         status: s.quantity === 0 ? 'Out of Stock' : 'Low Stock'
       }))
       .sort((a, b) => a.quantity - b.quantity);
+=======
+    // Low stock alerts - vehicles with quantity <= 1
+    const lowVehicleStock = await Vehicle.find({ quantity: { $lte: 1 } })
+      .select('vehicleName vehicleType quantity price')
+      .sort({ quantity: 1 });
+
+    // Low stock alerts - spares with quantity <= 2
+    const lowSpareStock = await Spare.find({ quantity: { $lte: 2 } })
+      .select('spareName sellingPrice quantity')
+      .sort({ quantity: 1 });
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
     res.json({
       totalCustomers, totalSales, totalServices, totalPending,

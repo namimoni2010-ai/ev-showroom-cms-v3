@@ -12,8 +12,15 @@ router.post('/', protect, async (req, res) => {
       price, stockStatus
     } = req.body;
 
+<<<<<<< HEAD
     if (!vehicleModel) return res.status(400).json({ message: 'Vehicle model is required.' });
     if (!chassisNo) return res.status(400).json({ message: 'Chassis number is required.' });
+=======
+    if (!vehicleModel)
+      return res.status(400).json({ message: 'Vehicle model is required.' });
+    if (!chassisNo)
+      return res.status(400).json({ message: 'Chassis number is required.' });
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
     const v = await Vehicle.create({
       vehicleModel, chassisNo, motorNo, controllerNo,
@@ -25,12 +32,20 @@ router.post('/', protect, async (req, res) => {
     res.status(201).json(v);
   } catch (err) {
     if (err.code === 11000)
+<<<<<<< HEAD
       return res.status(400).json({ message: 'Chassis number already exists. Please use a unique chassis number.' });
+=======
+      return res.status(400).json({ message: 'Chassis number already exists.' });
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     res.status(500).json({ message: err.message });
   }
 });
 
+<<<<<<< HEAD
 // Get all vehicles with optional filter
+=======
+// Get all vehicles
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 router.get('/', protect, async (req, res) => {
   try {
     const filter = {};
@@ -62,7 +77,11 @@ router.get('/search', protect, async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // Get by chassis number (auto-fill)
+=======
+// Get by chassis number
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 router.get('/chassis/:chassisNo', protect, async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({
@@ -128,4 +147,8 @@ router.delete('/:id', protect, async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

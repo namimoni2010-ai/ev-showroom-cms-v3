@@ -9,9 +9,12 @@ import Service from './pages/Service';
 import ViewCustomer from './pages/ViewCustomer';
 import VehicleStock from './pages/VehicleStock';
 import SpareStock from './pages/SpareStock';
+<<<<<<< HEAD
 import Payments from './pages/Payments';
 import Invoice from './pages/Invoice';
 import InvoiceHistory from './pages/InvoiceHistory';
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 import Sidebar from './components/Sidebar';
 
 const PrivateLayout = ({ children }) => {
@@ -36,10 +39,14 @@ function App() {
         <Route path="/add-customer" element={<PrivateLayout><AddCustomer /></PrivateLayout>} />
         <Route path="/sales" element={<PrivateLayout><Sales /></PrivateLayout>} />
         <Route path="/service" element={<PrivateLayout><Service /></PrivateLayout>} />
+<<<<<<< HEAD
         <Route path="/payments" element={<PrivateLayout><Payments /></PrivateLayout>} />
         <Route path="/view-customer" element={<PrivateLayout><ViewCustomer /></PrivateLayout>} />
         <Route path="/invoice" element={<PrivateLayout><Invoice /></PrivateLayout>} />
         <Route path="/invoice-history" element={<PrivateLayout><InvoiceHistory /></PrivateLayout>} />
+=======
+        <Route path="/view-customer" element={<PrivateLayout><ViewCustomer /></PrivateLayout>} />
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
         <Route path="/vehicle-stock" element={<PrivateLayout><VehicleStock /></PrivateLayout>} />
         <Route path="/spare-stock" element={<PrivateLayout><SpareStock /></PrivateLayout>} />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -48,4 +55,8 @@ function App() {
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

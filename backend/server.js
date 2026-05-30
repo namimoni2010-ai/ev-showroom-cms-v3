@@ -9,7 +9,11 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:3000',
+<<<<<<< HEAD
     'https://palaniandavarmotors.vercel.app'
+=======
+    'https://palaniandavaremotors.vercel.app'
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
   ],
   credentials: true
 }));
@@ -22,6 +26,7 @@ app.use('/api/sales', require('./routes/salesRoutes'));
 app.use('/api/services', require('./routes/serviceRoutes'));
 app.use('/api/vehicles', require('./routes/vehicleStockRoutes'));
 app.use('/api/spares', require('./routes/spareRoutes'));
+<<<<<<< HEAD
 app.use('/api/invoices', require('./routes/invoiceRoutes'));
 app.use('/api', require('./routes/dashboardRoutes'));
 
@@ -31,3 +36,14 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+=======
+app.use('/api', require('./routes/dashboardRoutes'));
+
+app.get('/', (req, res) => res.send('EV Showroom API Running'));
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

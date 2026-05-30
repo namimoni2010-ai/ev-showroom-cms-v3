@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import {
   searchCustomers, getCustomerById,
   getSalesByCustomer, getServicesByCustomer,
   updateSale, updateService, deleteSale, deleteService,
   getPaymentHistory
 } from '../api';
+=======
+import { searchCustomers, getCustomerById, getSalesByCustomer, getServicesByCustomer } from '../api';
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
 export default function ViewCustomer() {
   const [query, setQuery] = useState('');
@@ -15,6 +19,7 @@ export default function ViewCustomer() {
   const [loading, setLoading] = useState(false);
   const [searching, setSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+<<<<<<< HEAD
   const [expandedSale, setExpandedSale] = useState(null);
   const [expandedService, setExpandedService] = useState(null);
   const [servicePayHistory, setServicePayHistory] = useState({});
@@ -26,13 +31,23 @@ export default function ViewCustomer() {
   const [editServiceForm, setEditServiceForm] = useState({});
   const [editLoading, setEditLoading] = useState(false);
   const [editSuccess, setEditSuccess] = useState('');
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
   const handleSearch = async (val) => {
     setQuery(val);
     if (!val.trim()) { setSuggestions([]); setShowDropdown(false); return; }
     setSearching(true);
+<<<<<<< HEAD
     try { const { data } = await searchCustomers(val); setSuggestions(data); setShowDropdown(true); }
     catch { setSuggestions([]); }
+=======
+    try {
+      const { data } = await searchCustomers(val);
+      setSuggestions(data);
+      setShowDropdown(true);
+    } catch {}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     setSearching(false);
   };
 
@@ -40,9 +55,12 @@ export default function ViewCustomer() {
     setShowDropdown(false);
     setQuery(customer.name);
     setLoading(true);
+<<<<<<< HEAD
     setEditSaleId(null);
     setEditServiceId(null);
     setEditSuccess('');
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
     try {
       const [cRes, saleRes, svcRes] = await Promise.all([
         getCustomerById(customer._id),
@@ -56,6 +74,7 @@ export default function ViewCustomer() {
     setLoading(false);
   };
 
+<<<<<<< HEAD
   const loadPayHistory = async (serviceId) => {
     if (servicePayHistory[serviceId]) return;
     try {
@@ -155,10 +174,18 @@ export default function ViewCustomer() {
 
   const totalSalesPending = sales.filter(s => s.paymentStatus === 'Pending').reduce((a, s) => a + (s.pendingAmount || 0), 0);
   const totalSvcPending = services.filter(s => ['Pending', 'Partially Paid'].includes(s.paymentStatus)).reduce((a, s) => a + (s.pendingAmount || 0), 0);
+=======
+  const fmt = (n) => `₹${Number(n || 0).toLocaleString('en-IN')}`;
+  const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-IN') : '—';
+
+  const totalSalesPending = sales.filter(s => s.paymentStatus === 'Pending').reduce((a, s) => a + s.pendingAmount, 0);
+  const totalSvcPending = services.filter(s => s.paymentStatus === 'Pending').reduce((a, s) => a + s.pendingAmount, 0);
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
 
   return (
     <div>
       <h1 className="page-title">View Customer</h1>
+<<<<<<< HEAD
       <p className="page-subtitle">Search customer to view full profile, sales, service history and edit records</p>
 
       {/* Search */}
@@ -175,6 +202,34 @@ export default function ViewCustomer() {
               {suggestions.map((c) => (
                 <li key={c._id} onClick={() => handleSelect(c)}
                   className="px-4 py-3 hover:bg-slate-700 cursor-pointer border-b border-slate-700/50 last:border-0">
+=======
+      <p className="page-subtitle">Search and view complete customer profile with history</p>
+
+      {/* Search Box */}
+      <div className="card mb-6">
+        <label className="label">Search by Name or Phone Number</label>
+        <div className="relative max-w-lg">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Type customer name or phone..."
+            className="input-field pr-10"
+          />
+          {searching && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          )}
+          {showDropdown && suggestions.length > 0 && (
+            <ul className="absolute z-50 w-full bg-slate-800 border border-slate-600 rounded-lg mt-1 shadow-2xl max-h-52 overflow-y-auto">
+              {suggestions.map((c) => (
+                <li
+                  key={c._id}
+                  onClick={() => handleSelect(c)}
+                  className="px-4 py-3 hover:bg-slate-700 cursor-pointer border-b border-slate-700/50 last:border-0"
+                >
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                   <p className="text-white text-sm font-medium">{c.name}</p>
                   <p className="text-slate-400 text-xs">{c.phone}{c.email ? ` · ${c.email}` : ''}</p>
                 </li>
@@ -189,6 +244,7 @@ export default function ViewCustomer() {
         </div>
       </div>
 
+<<<<<<< HEAD
       {loading && <div className="flex justify-center py-16"><div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" /></div>}
 
       {selected && !loading && (
@@ -201,6 +257,17 @@ export default function ViewCustomer() {
           )}
 
           {/* Customer Profile */}
+=======
+      {loading && (
+        <div className="flex justify-center py-16">
+          <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
+
+      {selected && !loading && (
+        <div className="space-y-6">
+          {/* Customer Profile Card */}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
           <div className="card">
             <div className="flex items-start gap-5">
               <div className="w-16 h-16 bg-emerald-700 rounded-full flex items-center justify-center text-2xl font-bold text-white flex-shrink-0">
@@ -208,7 +275,11 @@ export default function ViewCustomer() {
               </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-white">{selected.name}</h2>
+<<<<<<< HEAD
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-3">
+=======
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                   <div className="bg-slate-700/50 rounded-lg px-4 py-3">
                     <p className="text-slate-400 text-xs">Phone</p>
                     <p className="text-white font-medium mt-0.5">{selected.phone}</p>
@@ -221,10 +292,13 @@ export default function ViewCustomer() {
                     <p className="text-slate-400 text-xs">Address</p>
                     <p className="text-white font-medium mt-0.5">{selected.address || '—'}</p>
                   </div>
+<<<<<<< HEAD
                   <div className="bg-slate-700/50 rounded-lg px-4 py-3">
                     <p className="text-slate-400 text-xs">Total Pending</p>
                     <p className="text-amber-400 font-bold text-lg mt-0.5">{fmt(totalSalesPending + totalSvcPending)}</p>
                   </div>
+=======
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                 </div>
                 <div className="grid grid-cols-3 gap-3 mt-3">
                   <div className="bg-slate-700/50 rounded-lg px-4 py-3 text-center">
@@ -236,24 +310,40 @@ export default function ViewCustomer() {
                     <p className="text-blue-400 text-xl font-bold">{services.length}</p>
                   </div>
                   <div className="bg-slate-700/50 rounded-lg px-4 py-3 text-center">
+<<<<<<< HEAD
                     <p className="text-slate-400 text-xs">Sales Pending</p>
                     <p className="text-amber-400 text-xl font-bold">{fmt(totalSalesPending)}</p>
+=======
+                    <p className="text-slate-400 text-xs">Total Pending</p>
+                    <p className="text-amber-400 text-xl font-bold">{fmt(totalSalesPending + totalSvcPending)}</p>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* ── SALES HISTORY ── */}
+=======
+          {/* Sales History */}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
           <div className="card">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
               🚗 Sales History
               <span className="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full">{sales.length}</span>
+<<<<<<< HEAD
               {totalSalesPending > 0 && <span className="ml-auto text-xs text-amber-400">Pending: {fmt(totalSalesPending)}</span>}
+=======
+              {totalSalesPending > 0 && (
+                <span className="ml-auto text-xs text-amber-400">Pending: {fmt(totalSalesPending)}</span>
+              )}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
             </h3>
             {sales.length === 0 ? (
               <p className="text-slate-500 text-sm text-center py-6">No sales records found</p>
             ) : (
+<<<<<<< HEAD
               <div className="space-y-4">
                 {sales.map((s) => (
                   <div key={s._id} className="bg-slate-700/30 border border-slate-600 rounded-xl overflow-hidden">
@@ -363,20 +453,60 @@ export default function ViewCustomer() {
                     )}
                   </div>
                 ))}
+=======
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="table-header">
+                      {['Vehicle', 'Type', 'Price', 'Discount', 'Final Price', 'Paid', 'Pending', 'Status', 'Date'].map(h => (
+                        <th key={h} className="text-left px-4 py-3 whitespace-nowrap">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sales.map((s) => (
+                      <tr key={s._id} className="table-row">
+                        <td className="px-4 py-3 text-white font-medium whitespace-nowrap">{s.vehicleName}</td>
+                        <td className="px-4 py-3 text-slate-400">{s.vehicleType || '—'}</td>
+                        <td className="px-4 py-3 text-slate-300">{fmt(s.price)}</td>
+                        <td className="px-4 py-3 text-red-400">- {fmt(s.discount)}</td>
+                        <td className="px-4 py-3 text-emerald-400 font-semibold">{fmt(s.finalPrice)}</td>
+                        <td className="px-4 py-3 text-slate-300">{fmt(s.paidAmount)}</td>
+                        <td className="px-4 py-3 text-amber-400">{fmt(s.pendingAmount)}</td>
+                        <td className="px-4 py-3">
+                          <span className={s.paymentStatus === 'Paid' ? 'badge-paid' : 'badge-pending'}>{s.paymentStatus}</span>
+                        </td>
+                        <td className="px-4 py-3 text-slate-400 whitespace-nowrap">{fmtDate(s.salesDate)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
               </div>
             )}
           </div>
 
+<<<<<<< HEAD
           {/* ── SERVICE HISTORY ── */}
+=======
+          {/* Service History */}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
           <div className="card">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
               🔧 Service History
               <span className="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full">{services.length}</span>
+<<<<<<< HEAD
               {totalSvcPending > 0 && <span className="ml-auto text-xs text-amber-400">Pending: {fmt(totalSvcPending)}</span>}
+=======
+              {totalSvcPending > 0 && (
+                <span className="ml-auto text-xs text-amber-400">Pending: {fmt(totalSvcPending)}</span>
+              )}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
             </h3>
             {services.length === 0 ? (
               <p className="text-slate-500 text-sm text-center py-6">No service records found</p>
             ) : (
+<<<<<<< HEAD
               <div className="space-y-4">
                 {services.map((s) => (
                   <div key={s._id} className="bg-slate-700/30 border border-slate-600 rounded-xl overflow-hidden">
@@ -573,6 +703,52 @@ export default function ViewCustomer() {
                     )}
                   </div>
                 ))}
+=======
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="table-header">
+                      {['Vehicle', 'KM Run', 'Service Type', 'Labour', 'Spare Parts', 'Total', 'Paid', 'Pending', 'Status', 'Date', 'Next Due'].map(h => (
+                        <th key={h} className="text-left px-4 py-3 whitespace-nowrap">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {services.map((s) => (
+                      <React.Fragment key={s._id}>
+                        <tr className="table-row">
+                          <td className="px-4 py-3 text-white font-medium whitespace-nowrap">{s.vehicleName}</td>
+                          <td className="px-4 py-3 text-slate-400">{s.kmRun?.toLocaleString() || '—'}</td>
+                          <td className="px-4 py-3 text-slate-300 max-w-[160px] truncate" title={s.serviceType}>{s.serviceType || '—'}</td>
+                          <td className="px-4 py-3 text-slate-300">{fmt(s.labourCost)}</td>
+                          <td className="px-4 py-3 text-slate-300">
+                            {s.spareItems?.length > 0 ? (
+                              <div>
+                                <p className="text-white font-semibold">{fmt(s.spareCost)}</p>
+                                <div className="mt-1 space-y-0.5">
+                                  {s.spareItems.map((item, i) => (
+                                    <p key={i} className="text-slate-500 text-xs">
+                                      {item.spareName} ×{item.quantity} @ {fmt(item.price)}
+                                    </p>
+                                  ))}
+                                </div>
+                              </div>
+                            ) : fmt(s.spareCost)}
+                          </td>
+                          <td className="px-4 py-3 text-emerald-400 font-semibold">{fmt(s.totalBill)}</td>
+                          <td className="px-4 py-3 text-slate-300">{fmt(s.paidAmount)}</td>
+                          <td className="px-4 py-3 text-amber-400">{fmt(s.pendingAmount)}</td>
+                          <td className="px-4 py-3">
+                            <span className={s.paymentStatus === 'Paid' ? 'badge-paid' : 'badge-pending'}>{s.paymentStatus}</span>
+                          </td>
+                          <td className="px-4 py-3 text-slate-400 whitespace-nowrap">{fmtDate(s.serviceDate)}</td>
+                          <td className="px-4 py-3 text-blue-400 whitespace-nowrap">{fmtDate(s.nextServiceDate)}</td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
               </div>
             )}
           </div>
@@ -580,4 +756,8 @@ export default function ViewCustomer() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d

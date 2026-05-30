@@ -101,4 +101,8 @@ const deleteSale = async (req, res) => {
 module.exports = {
   addSale, getSales, getSalesByCustomer,
   updateSalePayment, updateSale, deleteSale
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 4b2cd7b56332a999799852674a8a168b7c1e951d
