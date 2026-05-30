@@ -9,7 +9,7 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://palaniemotors.vercel.app'
+    'https://palaniandavarmotors.vercel.app'
   ],
   credentials: true
 }));
